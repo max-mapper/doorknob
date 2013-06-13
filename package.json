@@ -1,0 +1,21 @@
+{
+  "name": "doorknob",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "browserify www/index.js -o www/bundle.js && node test.js"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "persona-id": "0.0.2",
+    "levelup": "~0.9.0"
+  },
+  "devDependencies": {
+    "browser-request": "~0.2.1",
+    "ecstatic": "~0.4.5",
+    "browserify": "~2.18.1"
+  }
+}
