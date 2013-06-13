@@ -10,8 +10,8 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "persona-id": "0.0.2",
-    "levelup": "~0.9.0"
+    "levelup": "~0.9.0",
+    "persona-id": "0.0.3"
   },
   "devDependencies": {
     "browser-request": "~0.2.1",
