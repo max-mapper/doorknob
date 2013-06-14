@@ -1,13 +1,16 @@
 {
   "name": "doorknob",
-  "version": "0.0.0",
-  "description": "ERROR: No README.md file found!",
+  "version": "0.0.1",
+  "description": "convenience module for adding Mozilla Persona user login + LevelDB based session storage to node web apps",
   "main": "index.js",
   "scripts": {
     "test": "browserify www/index.js -o www/bundle.js && node test.js"
   },
-  "repository": "",
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxogden/doorknob.git"
+  },
+  "author": "max ogden",
   "license": "BSD",
   "dependencies": {
     "levelup": "~0.9.0",

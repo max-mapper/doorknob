@@ -1,6 +1,6 @@
 # doorknob
 
-Easily integrate user sign in + stored authenticated sessions into your node web app.
+convenience module for adding Mozilla Persona user login + LevelDB based session storage to node web apps
 
 Uses [levelup](http://github.com/rvagg/node-levelup) for storing sessions and [Mozilla Persona](https://login.persona.org/about) (via the [persona-id](http://github.com/substack/persona-id) module) for user sign-on.
 
