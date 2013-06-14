@@ -6,9 +6,13 @@ var staticHandler = ecstatic('www')
 var port = 8080
 
 module.exports = function(host, port) {
-  if (!port) port = host
-  var audience = 'http://' + (host || 'localhost') + ':' + (port || 80)
-  var doorknob = createDoorknob()
+  if (!port) {
+    port = host
+    host = false
+  }
+  var audience = 'http://' + (host || 'localhost') + ':' + (port || 8080)
+  var doorknob = createDoorknob(audience)
+  console.log(doorknob)
   http.createServer(function(req, res) {
     doorknob(req, res, function(err, profile) {
       if (profile.loggingIn) return
