@@ -26,6 +26,7 @@ module.exports = function(options) {
   })
   
   authHandler.db = db
+  authHandler.persona = persona
   return authHandler
   
   function authHandler(req, res, cb) {
