@@ -9,12 +9,15 @@ var sublevel = require('level-sublevel')
 var replicate = require('level-replicate')
 var levelup = require('levelup')
 
-// var db = sublevel(levelup('foo.db'))
-// var master = Replicate(db, 'master', "MASTER-1")
+var db = sublevel(levelup('foo.db'))
+var master = replicate(db, 'master', "MASTER-1")
 
 wss.on('connection', function(conn, req) {
   var sessionID = server.doorknob.persona.getId(req)
-  if (!sessionID) return conn.close()
-  // var stream = websocket(conn)
-  // stream.pipe(multilevel.server(db)).pipe(stream)
+  if (!sessionID) return conn.close('unauthenticated')
+  var stream = websocket(conn)
+  stream.pipe(master.createStream({tail: true})).pipe(stream)
+  stream.on('data', function(c) {
+    console.log(c)
+  })
 })
