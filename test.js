@@ -1,1 +1,1 @@
-require('./server.js')(9966)
+require('./server')(9966)

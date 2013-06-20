@@ -27,9 +27,13 @@ module.exports = function(options) {
   
   authHandler.db = db
   authHandler.persona = persona
+  
+  if (options.devMode) console.error("DOORKNOB IS RUNNING IN DEV MODE!")
+  
   return authHandler
   
   function authHandler(req, res, cb) {
+    if (options.devMode) return cb (false, {email: "fake@test.com"})
     if (persona.test(req)) {
       persona.handle(req, res)
       cb(false, { loggingIn: true })
