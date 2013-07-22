@@ -27,6 +27,7 @@ module.exports = function(options) {
   
   authHandler.db = db
   authHandler.persona = persona
+  authHandler.getProfile = getProfile
   
   if (options.devMode) console.error("DOORKNOB IS RUNNING IN DEV MODE!")
   
@@ -39,6 +40,11 @@ module.exports = function(options) {
       cb(false, { loggingIn: true })
       return
     }
+    getProfile(req, cb)
+  }
+  
+  function getProfile(req, cb) {
+    if (options.devMode) return cb (false, {email: "fake@test.com"})
     var sid = persona.getId(req)
     if (!sid) return cb(false, { loggedOut: true })
     db.get(sid, function(err, profile) {

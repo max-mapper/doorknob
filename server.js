@@ -1,8 +1,10 @@
 var createDoorknob = require('./')
 var ecstatic = require('ecstatic')
 var http = require('http')
+var corser = require("corser")
 
 var port = 9966
+var cors = corser.create()
 
 module.exports = function(opts) {
   if (!opts) opts = {}
@@ -13,20 +15,22 @@ module.exports = function(opts) {
   
   var audience = 'http://' + opts.host + ':' + opts.port
   var server = http.createServer(function(req, res) {
-    server.doorknob(req, res, function(err, profile) {
-      if (profile.loggingIn) return
-      if (req.url.match(/^\/_session/)) return sendJSON(res, profile)
-      if (opts.onRequest) {
-        opts.onRequest(req, res, function(handled) {
-          // if onRequest handler cb returns false serve static
-          if (!handled) staticHandler(req, res)
-        })
-      } else {
-        // serve static if no custom onRequest handler exists
-        staticHandler(req, res)
-      }
+    cors(req, res, function() {
+      server.doorknob(req, res, function(err, profile) {
+        if (profile.loggingIn) return
+        if (req.url.match(/^\/_session/)) return sendJSON(res, profile)
+        if (opts.onRequest) {
+          opts.onRequest(req, res, function(handled) {
+            // if onRequest handler cb returns false serve static
+            if (!handled) staticHandler(req, res)
+          })
+        } else {
+          // serve static if no custom onRequest handler exists
+          staticHandler(req, res)
+        }
+      })
     })
-  }).listen(opts.port)
+  })
   server.doorknob = createDoorknob(opts)
   return server
 }
