@@ -4,16 +4,18 @@ var http = require('http')
 var corser = require("corser")
 
 var port = 9966
-var cors = corser.create()
 
 module.exports = function(opts) {
   if (!opts) opts = {}
   if (!opts.host) opts.host = 'localhost'
   if (!opts.port) opts.port = 9966
   if (!opts.staticPath) opts.staticPath = 'www'
+  if (!opts.whitelist) opts.whitelist = []
   var staticHandler = ecstatic(opts.staticPath)
+  var doorknob = createDoorknob(opts)
+  opts.whitelist.push(doorknob.persona.audience)
+  var cors = corser.create({ origins: opts.whitelist, supportsCredentials: true })
   
-  var audience = 'http://' + opts.host + ':' + opts.port
   var server = http.createServer(function(req, res) {
     cors(req, res, function() {
       server.doorknob(req, res, function(err, profile) {
@@ -31,7 +33,8 @@ module.exports = function(opts) {
       })
     })
   })
-  server.doorknob = createDoorknob(opts)
+  
+  server.doorknob = doorknob
   return server
 }
 
