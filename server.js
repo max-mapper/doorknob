@@ -22,7 +22,7 @@ module.exports = function(opts) {
         if (profile.loggingIn) return
         if (req.url.match(/^\/_session/)) return sendJSON(res, profile)
         if (opts.onRequest) {
-          opts.onRequest(req, res, function(handled) {
+          opts.onRequest(req, res, profile, function(handled) {
             // if onRequest handler cb returns false serve static
             if (!handled) staticHandler(req, res)
           })
