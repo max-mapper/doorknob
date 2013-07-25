@@ -82,11 +82,11 @@ var server = createServer({
 
 `server` is an `http.Server` instance with the `doorknob` instance available as `server.doorknob`.
 
-`onRequest` is a function that gets passed `(req, res, callback)`. You must call the callback with either `true` if you handled the request and nothing else should happen or `false` if you want the server to try to serve a static file for the request.
+`onRequest` is a function that gets passed `(req, res, profile, callback)`. You must call the callback with either `true` if you handled the request and nothing else should happen or `false` if you want the server to try to serve a static file for the request.
 
 ```js
 var server = createServer({
-  onRequest: function(req, res, cb) {
+  onRequest: function(req, res, profile, cb) {
     if (req.path.match('foo')) {
       res.statusCode(200)
       res.end('bar')
