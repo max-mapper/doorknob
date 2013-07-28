@@ -2,6 +2,7 @@ var os = require('os')
 var path = require('path')
 var personaID = require('persona-id')
 var levelup = require('levelup')
+var sublevel = require('level-sublevel')
 
 module.exports = function(options) {
   if (typeof options === 'string') options = { audience: options }
@@ -9,19 +10,28 @@ module.exports = function(options) {
   if (!options.valueEncoding) options.valueEncoding = 'json'
   if (!options.location) options.location = path.join(os.tmpdir(), 'data.leveldb')
   var db = options.db || levelup(options.location, options)
+  db = sublevel(db)
+  var profiles = db.sublevel('profiles')
+  var sessions = db.sublevel('sessions')
   
   var persona = personaID(options.audience || 'http://localhost:8080')
   
-  persona.on('create', function (sid, profile) {
-    db.put(sid, profile, function(err) {
-      if (err) console.log('persona save error', sid, err.message)
+  persona.on('create', function (sid, meta) {
+    var profile = {email: meta.email}
+    sessions.put(sid, meta, function(err) {
+      if (err) console.log('sessions save error', sid, err.message)
+    })
+    profiles.get(profile.email, function(err, existingProfile) {
+      profiles.put(profile.email, existingProfile || profile, function(err) {
+        if (err) console.log('persona save error', profile.email, err.message)
+      })
     })
   })
 
   persona.on('destroy', function (sid) {
     if (!sid) return
-    db.del(sid, function(err) {
-      if (err) console.log('persona del error', sid, err.message)
+    sessions.del(sid, function(err) {
+      if (err) console.log('session del error', sid, err.message)
     })
   })
   
@@ -45,15 +55,15 @@ module.exports = function(options) {
   
   function getProfile(req, cb) {
     if (options.devMode) return cb (false, {email: "fake@test.com"})
+    var expiredError = { loggedOut: true, sessionExpired: true }
     var sid = persona.getId(req)
     if (!sid) return cb(false, { loggedOut: true })
-    db.get(sid, function(err, profile) {
-      if (err) {
-        console.log('session does not exist in db:', sid)
-        cb(false, {})
-        return
-      }
-      cb (false, profile)
+    sessions.get(sid, function(err, meta) {
+      if (err) return cb(false, expiredError)
+      profiles.get(meta.email, function(err, profile) {
+        if (err) return cb(false, expiredError)
+        cb (false, profile)
+      })
     })
   }
 }

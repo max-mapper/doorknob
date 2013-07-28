@@ -1,6 +1,6 @@
 {
   "name": "doorknob",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "convenience module for adding Mozilla Persona user login + LevelDB based session storage to node web apps",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,8 @@
     "persona-id": "0.0.3",
     "corser": "~1.2.0",
     "leveldown": "~0.5.0",
-    "ecstatic": "~0.4.5"
+    "ecstatic": "~0.4.5",
+    "level-sublevel": "~4.8.0"
   },
   "devDependencies": {
     "browser-request": "~0.2.1",

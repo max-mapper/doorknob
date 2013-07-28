@@ -20,8 +20,9 @@ module.exports = function(opts) {
     cors(req, res, function() {
       server.doorknob(req, res, function(err, profile) {
         if (profile.loggingIn) return
-        if (req.url.match(/^\/_session/)) return sendJSON(res, profile)
+        if (req.url.match(/^\/_profile/)) return sendJSON(res, profile)
         if (opts.onRequest) {
+          opts.onRequest = opts.onRequest.bind(server)
           opts.onRequest(req, res, profile, function(handled) {
             // if onRequest handler cb returns false serve static
             if (!handled) staticHandler(req, res)

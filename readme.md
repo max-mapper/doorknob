@@ -98,7 +98,7 @@ var server = createServer({
 })
 ```
 
-Additionally you can `GET /_session` to retrieve the current user profile.
+Additionally you can `GET /_profile` to retrieve the current user profile.
 
 ## license
 
