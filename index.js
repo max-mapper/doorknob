@@ -1,7 +1,7 @@
 var os = require('os')
 var path = require('path')
 var personaID = require('persona-id')
-var levelup = require('levelup')
+var level = require('level')
 var sublevel = require('level-sublevel')
 
 module.exports = function(options) {
@@ -9,8 +9,9 @@ module.exports = function(options) {
   if (!options) options = {}
   if (!options.valueEncoding) options.valueEncoding = 'json'
   if (!options.location) options.location = path.join(os.tmpdir(), 'data.leveldb')
-  var db = options.db || levelup(options.location, options)
+  var db = options.db || level(options.location, options)
   db = sublevel(db)
+  
   var profiles = db.sublevel('profiles')
   var sessions = db.sublevel('sessions')
   
