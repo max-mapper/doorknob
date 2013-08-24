@@ -19,11 +19,11 @@ module.exports = function(options) {
   
   persona.on('create', function (sid, meta) {
     var profile = {email: meta.email}
-    sessions.put(sid, meta, function(err) {
+    sessions.put(sid, JSON.stringify(meta), function(err) {
       if (err) console.log('sessions save error', sid, err.message)
     })
     profiles.get(profile.email, function(err, existingProfile) {
-      profiles.put(profile.email, existingProfile || profile, function(err) {
+      profiles.put(profile.email, existingProfile || JSON.stringify(profile), function(err) {
         if (err) console.log('persona save error', profile.email, err.message)
       })
     })
@@ -61,9 +61,12 @@ module.exports = function(options) {
     if (!sid) return cb(false, { loggedOut: true })
     sessions.get(sid, function(err, meta) {
       if (err) return cb(false, expiredError)
-      profiles.get(meta.email, function(err, profile) {
+      var pmeta = JSON.parse(meta)
+      console.log("got meta:", pmeta)
+      profiles.get(pmeta.email, function(err, profile) {
         if (err) return cb(false, expiredError)
-        cb (false, profile)
+        console.log("got profile:", JSON.parse(profile))
+        cb (false, JSON.parse(profile))
       })
     })
   }
