@@ -62,10 +62,8 @@ module.exports = function(options) {
     sessions.get(sid, function(err, meta) {
       if (err) return cb(false, expiredError)
       var pmeta = JSON.parse(meta)
-      console.log("got meta:", pmeta)
       profiles.get(pmeta.email, function(err, profile) {
         if (err) return cb(false, expiredError)
-        console.log("got profile:", JSON.parse(profile))
         cb (false, JSON.parse(profile))
       })
     })
