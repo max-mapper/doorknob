@@ -15,10 +15,9 @@
   "dependencies": {
     "persona-id": "git://github.com/maxogden/persona-id.git#cookie-method",
     "corser": "~1.2.0",
-    "leveldown": "~0.7.0",
     "ecstatic": "~0.4.5",
-    "level": "~0.14.0",
-    "level-sublevel": "~5.0.1"
+    "level": "~0.16.0",
+    "level-sublevel": "~5.1.1"
   },
   "devDependencies": {
     "browser-request": "~0.2.1",
