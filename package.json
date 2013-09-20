@@ -1,7 +1,7 @@
 {
   "name": "doorknob",
-  "version": "2.0.2",
-  "description": "convenience module for adding Mozilla Persona user login + LevelDB based session storage to node web apps",
+  "version": "3.0.0",
+  "description": "add Mozilla Persona user login and LevelDB based session storage to node web apps",
   "main": "index.js",
   "scripts": {
     "test": "browserify www/index.js -o www/bundle.js && node test.js"
@@ -20,7 +20,7 @@
     "level-sublevel": "~5.1.1"
   },
   "devDependencies": {
-    "browser-request": "~0.2.1",
+    "browser-request": "git+https://github.com/iriscouch/browser-request.git",
     "browserify": "~2.28.0",
     "ecstatic": "~0.4.5"
   }

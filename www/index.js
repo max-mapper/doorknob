@@ -16,7 +16,7 @@ identify.addEventListener('click', function () { persona.identify() })
 unidentify.addEventListener('click', function () { persona.unidentify() })
 
 function getSession() {
-  request({url: '/_session', json: true}, function(err, resp, profile) {
+  request({url: '/_profile', json: true}, function(err, resp, profile) {
     if (!persona.id && profile.email) persona.set(profile.email)
     output.innerHTML = JSON.stringify(profile)
   })

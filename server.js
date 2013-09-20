@@ -11,6 +11,7 @@ module.exports = function(opts) {
   if (!opts.port) opts.port = 9966
   if (!opts.staticPath) opts.staticPath = 'www'
   if (!opts.whitelist) opts.whitelist = []
+  
   var staticHandler = ecstatic(opts.staticPath)
   var doorknob = createDoorknob(opts)
   opts.whitelist.push(doorknob.persona.audience)
@@ -18,23 +19,29 @@ module.exports = function(opts) {
   
   var server = http.createServer(function(req, res) {
     cors(req, res, function() {
-      server.doorknob(req, res, function(err, profile) {
-        if (profile.loggingIn) return
-        if (req.url.match(/^\/_profile/)) return sendJSON(res, profile)
-        if (opts.onRequest) {
-          opts.onRequest = opts.onRequest.bind(server)
-          opts.onRequest(req, res, profile, function(handled) {
-            // if onRequest handler cb returns false serve static
-            if (!handled) staticHandler(req, res)
-          })
-        } else {
-          // serve static if no custom onRequest handler exists
-          staticHandler(req, res)
-        }
-      })
+       server.doorknob(req, res, function(err, profile) {
+         if (err) return
+         handler(req, res, profile)
+       })
     })
   })
   
+  function handler(req, res, profile) {
+    if (profile.loggingIn) return
+    if (req.url.match(/^\/_profile/)) return sendJSON(res, profile)
+    if (opts.onRequest) {
+      opts.onRequest = opts.onRequest.bind(server)
+      opts.onRequest(req, res, profile, function(handled) {
+        // if onRequest handler cb returns false serve static
+        if (!handled) staticHandler(req, res)
+      })
+    } else {
+      // serve static if no custom onRequest handler exists
+      console.log('staticing', req.url)
+      staticHandler(req, res)
+    }
+  }
+
   server.doorknob = doorknob
   return server
 }
