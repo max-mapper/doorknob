@@ -37,7 +37,6 @@ module.exports = function(opts) {
       })
     } else {
       // serve static if no custom onRequest handler exists
-      console.log('staticing', req.url)
       staticHandler(req, res)
     }
   }
