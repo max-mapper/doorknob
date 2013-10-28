@@ -15,12 +15,12 @@ There are two main goals for this project:
 npm install doorknob
 ```
 
-## Rest it out locally
+## Test it out locally
 
 1. clone this repo
 2. npm install
 3. npm test
-4. open localhost:8080
+4. open localhost:9966
 
 ## API
 
