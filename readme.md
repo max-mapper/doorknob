@@ -37,7 +37,7 @@ Default options:
 ```js
 {
   valueEncoding: 'json',
-  location: path.join(os.tmpdir(), 'doorknob.db'),
+  location: path.join(os.tmpdir(), 'data.leveldb'),
   db: levelup(options.location, options),
   audience: 'http://localhost:8080',
   devMode: false // used to develop offline, returns a fake session
