@@ -15,7 +15,7 @@ module.exports = function(options) {
   var profiles = db.sublevel('profiles')
   var sessions = db.sublevel('sessions')
   
-  var persona = personaID(options.audience || 'http://localhost:9966')
+  var persona = personaID(options.audience || 'http://localhost:8080')
   
   persona.on('create', function (sid, meta) {
     var profile = {email: meta.email}

@@ -2,6 +2,8 @@
 
 Convenience module for adding Mozilla Persona user login + LevelDB based session storage to node web apps.
 
+[![NPM](https://nodei.co/npm/doorknob.png)](https://nodei.co/npm/doorknob/)
+
 Uses [levelup](http://github.com/rvagg/node-levelup) for storing sessions and [Mozilla Persona](https://login.persona.org/about) (via the [persona-id](http://github.com/substack/persona-id) module) for user sign-on.
 
 There are two main goals for this project:
